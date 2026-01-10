@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ekubo
+    env: docker
+    plan: standard
+    region: singapore
+    envVars:
+      - key: DEBUG
+        value: 'False'
+      - key: PYTHON_VERSION
+        value: '3.12'
