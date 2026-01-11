@@ -2,4 +2,3 @@ services:
   - type: web
     name: ekubo
     env: docker
-    startCommand: "cd /app/core && daphne -b 0.0.0.0 -p $PORT core.asgi:application"
