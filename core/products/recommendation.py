@@ -1,12 +1,17 @@
 # products/recommendation.py
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.neighbors import NearestNeighbors
 import numpy as np
 from .models import Product, Order
 from django.db.models import Q
 
 def knn_recommend_products(user, k=10):
+    try:
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        from sklearn.neighbors import NearestNeighbors
+    except Exception:
+        # scikit-learn not available in the environment (e.g., on limited build)
+        # return empty recommendations so the app can still start.
+        return []
     user_orders = Order.objects.filter(buyer=user, status__in=["Accepted", "Pending"])
     user_products = Product.objects.filter(order__in=user_orders).distinct()
 
