@@ -93,15 +93,27 @@ CHANNEL_LAYERS = {
 }
 
 # -------------------------
-# DATABASE (POSTGRESQL)
+# DATABASE (POSTGRESQL with fallback)
 # -------------------------
-DATABASES = {
-    "default": dj_database_url.parse(
-        config("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+# Use DATABASE_URL when provided; fall back to local SQLite so the
+# application can start in environments where the managed database
+# isn't reachable or the environment variable is missing.
+database_url = os.environ.get("DATABASE_URL")
+if database_url:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            database_url,
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # -------------------------
 # AUTH
