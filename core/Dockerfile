@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -21,10 +21,8 @@ RUN apt-get update && apt-get install -y \
 # Copy requirements and install dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip setuptools wheel
-## Pre-install build-time Python packages to help compile heavy packages like scikit-learn
-RUN pip install --upgrade pip setuptools wheel
-RUN pip install cython numpy==1.26.4
-RUN pip install -r requirements.txt
+# Prefer binary wheels to avoid compiling packages like scikit-learn from source
+RUN pip install --prefer-binary -r requirements.txt
 
 # Copy entire project
 COPY . .
