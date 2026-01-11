@@ -12,11 +12,18 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libpq-dev \
     postgresql-client \
+    gfortran \
+    libopenblas-dev \
+    liblapack-dev \
+    libatlas-base-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install dependencies
 COPY requirements.txt .
 RUN pip install --upgrade pip setuptools wheel
+## Pre-install build-time Python packages to help compile heavy packages like scikit-learn
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install cython numpy==1.26.4
 RUN pip install -r requirements.txt
 
 # Copy entire project
