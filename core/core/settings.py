@@ -147,7 +147,9 @@ USE_TZ = True
 # -------------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# Use the non-manifest compressed storage in this Docker build to avoid
+# ManifestStaticFilesStorage runtime errors when a manifest entry is missing.
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 # -------------------------
 # CLOUDINARY (MEDIA)
