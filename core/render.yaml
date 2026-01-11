@@ -2,13 +2,3 @@ services:
   - type: web
     name: ekubo
     env: docker
-    plan: standard
-    buildCommand: bash build.sh
-    startCommand: sh -c "cd core && daphne -b 0.0.0.0 -p $PORT core.asgi:application"
-    envVars:
-      - key: PYTHON_VERSION
-        value: "3.12"
-      - key: PORT
-        value: "8000"
-    healthCheckPath: /
-    healthCheckTimeout: 30
