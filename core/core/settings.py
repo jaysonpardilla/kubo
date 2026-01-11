@@ -12,7 +12,7 @@ SECRET_KEY = config("SECRET_KEY")
 
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost,127.0.0.1,ekubo.onrender.com").split(",")
+ALLOWED_HOSTS = ["*"]
 
 # -------------------------
 # APPLICATIONS
@@ -158,23 +158,9 @@ CLOUDINARY_STORAGE = {
     "CLOUDINARY_URL": config("CLOUDINARY_URL"),
 }
 
-CSRF_TRUSTED_ORIGINS = config(
-    "CSRF_TRUSTED_ORIGINS",
-    default="https://ekubo.onrender.com"
-).split(",")
-
-# Security Headers for Production
-if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_SECURITY_POLICY = {
-        'default-src': ("'self'", "https://js.cloudflare.com"),
-        'script-src': ("'self'", "'unsafe-inline'", "https://js.cloudflare.com"),
-        'style-src': ("'self'", "'unsafe-inline'"),
-        'img-src': ("'self'", "data:", "https:"),
-    }
+CSRF_TRUSTED_ORIGINS = [
+    "https://ekubo.onrender.com",
+]
 
 # -------------------------
 # CAPTCHA
