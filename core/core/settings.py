@@ -58,7 +58,7 @@ MIDDLEWARE = [
 # -------------------------
 # URLS / TEMPLATES
 # -------------------------
-ROOT_URLCONF = 'core.urls'
+ROOT_URLCONF = 'core.core.urls'
 
 TEMPLATES = [
     {
