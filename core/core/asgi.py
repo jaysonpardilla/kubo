@@ -1,10 +1,3 @@
-"""ASGI entrypoint.
-
-This file is resilient to different working directories / PYTHONPATH values
-(Render sometimes runs the container from the repo root while others run
-from the inner project directory). We ensure both `/app` and `/app/core`
-are on `sys.path` and try both import paths for the routing module.
-"""
 import os
 import sys
 from pathlib import Path
@@ -20,7 +13,7 @@ for p in (str(BASE_DIR), str(REPO_ROOT)):
     if p not in sys.path:
         sys.path.insert(0, p)
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.core.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 django.setup()
 
 # Import websocket URL patterns using either import path
