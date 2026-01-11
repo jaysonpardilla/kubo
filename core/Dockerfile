@@ -2,7 +2,6 @@ FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV PORT=8000
 ENV PYTHONPATH=/app/core
 
 WORKDIR /app
@@ -30,7 +29,6 @@ WORKDIR /app/core
 RUN python manage.py migrate --noinput 2>/dev/null || true
 RUN python manage.py collectstatic --noinput --clear
 
-EXPOSE 8000
+EXPOSE 10000
 
-# Start the application
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "core.asgi:application"]
+CMD ["sh", "-c", "daphne -b 0.0.0.0 -p $PORT core.asgi:application"]
