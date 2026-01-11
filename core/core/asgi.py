@@ -13,7 +13,7 @@ for p in (str(BASE_DIR), str(REPO_ROOT)):
     if p not in sys.path:
         sys.path.insert(0, p)
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.core.setings')
 django.setup()
 
 # Import websocket URL patterns using either import path
