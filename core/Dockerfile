@@ -2,7 +2,7 @@ FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app/core
+ENV PYTHONPATH=/app
 
 WORKDIR /app
 
@@ -22,13 +22,11 @@ RUN pip install -r requirements.txt
 # Copy entire project
 COPY . .
 
-# Change to core directory for remaining setup
-WORKDIR /app/core
-
-# Run migrations and collect static files
-RUN python manage.py migrate --noinput 2>/dev/null || true
-RUN python manage.py collectstatic --noinput --clear
+# Run migrations and collect static files from the core subdirectory
+RUN cd /app/core && python manage.py migrate --noinput 2>/dev/null || true
+RUN cd /app/core && python manage.py collectstatic --noinput --clear
 
 EXPOSE 10000
 
-CMD ["sh", "-c", "daphne -b 0.0.0.0 -p $PORT core.asgi:application"]
+# Run daphne from /app/core where manage.py is located
+CMD ["sh", "-c", "cd /app/core && daphne -b 0.0.0.0 -p $PORT core.asgi:application"]
